@@ -1,0 +1,6 @@
+{
+  "name": "Livraison GTSM-Tanger",
+  "description": "Application complète de gestion et d'analyse des livraisons GTSM-Tanger avec KPIs, graphiques et suivi des tournées.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
