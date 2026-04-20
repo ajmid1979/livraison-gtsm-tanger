@@ -11,7 +11,8 @@ export const generateBCD = (tourNo: string, items: DeliveryData[], bcdNumber: st
   const dateOperation = dateSortieString !== "/" ? dateSortieString : (firstItem?.dateDepotage || new Date().toLocaleDateString());
   
   // Header Image with Async handling to prevent "Logo non trouvé"
-  const logoUrl = 'https://logos-download.com/wp-content/uploads/2021/01/Gondrand_Logo.png';
+  // Local header image from public/Images folder
+  const logoUrl = '/Images/Entête GTSM.png';
   
   // Pre-load the image to avoid the "Error" during PDF generation
   const img = new Image();
@@ -53,7 +54,7 @@ export const generateBCD = (tourNo: string, items: DeliveryData[], bcdNumber: st
       }
     };
     localImg.onerror = () => finalizePdf();
-    localImg.src = '/logo-gondrand.png';
+    localImg.src = '/Images/Entête GTSM.png';
   };
   img.src = logoUrl;
 
@@ -97,28 +98,24 @@ export const generateBCD = (tourNo: string, items: DeliveryData[], bcdNumber: st
     };
 
     if (logoData) {
-      doc.addImage(logoData, 'PNG', 15, 12, 180, 25);
+      doc.addImage(logoData, 'PNG', 15, 10, 180, 30);
     } else {
-      // High-quality fallback text styling
-      doc.setFontSize(26);
+      // Fallback: simple text header
+      doc.setFontSize(20);
       doc.setTextColor(91, 111, 181);
       doc.setFont('helvetica', 'bold');
-      doc.text('GTSM', 20, 25);
-      doc.setFontSize(14);
-      doc.text('Groupe GONDRAND', 20, 32);
+      doc.text('GTSM', 20, 22);
+      doc.setFontSize(12);
+      doc.text('Groupe GONDRAND', 20, 28);
     }
-
-    doc.setDrawColor(91, 111, 181);
-    doc.setLineWidth(0.5);
-    doc.line(20, 42, 195, 42);
 
     doc.setFontSize(12);
     doc.setTextColor(220, 38, 38);
-    doc.text(bcdNumber, 20, 50);
+    doc.text(bcdNumber, 20, 48);
     
     doc.setTextColor(0, 0, 0);
     doc.setFont('helvetica', 'normal');
-    doc.text(`Date d'opération : ${dateOperation}`, 130, 50);
+    doc.text(`Date d'opération : ${dateOperation}`, 130, 48);
     
     // Information Sections
     const drawSectionHeader = (title: string, y: number) => {
@@ -130,20 +127,20 @@ export const generateBCD = (tourNo: string, items: DeliveryData[], bcdNumber: st
       doc.text(title, 105, y + 5, { align: 'center' });
     };
     
-    drawSectionHeader('INFORMATIONS TRANSPORTEUR', 60);
+    drawSectionHeader('INFORMATIONS TRANSPORTEUR', 55);
     doc.setFontSize(11);
     doc.setTextColor(0, 0, 0);
-    doc.text('Fournisseur :', 30, 75);
+    doc.text('Fournisseur :', 30, 70);
     doc.setFont('helvetica', 'bold');
-    doc.text(firstItem?.transporteur || '—', 80, 75);
+    doc.text(firstItem?.transporteur || '—', 80, 70);
     
-    drawSectionHeader('INFORMATIONS CLIENT', 83);
+    drawSectionHeader('INFORMATIONS CLIENT', 78);
     doc.setFont('helvetica', 'normal');
-    doc.text('Client / Destination :', 30, 98);
+    doc.text('Client / Destination :', 30, 93);
     doc.setFont('helvetica', 'bold');
-    doc.text(firstItem?.zone || 'TANGER / GTSM', 80, 98);
+    doc.text(firstItem?.zone || 'TANGER / GTSM', 80, 93);
     
-    drawSectionHeader("DÉTAILS DE L'EXPÉDITION", 106);
+    drawSectionHeader("DÉTAILS DE L'EXPÉDITION", 101);
     
     const tableData = items.map(item => [
       `${item.expediteur} / ${item.destinataire}\nRef: ${item.voyage} Pos: ${item.position}`,
@@ -153,7 +150,7 @@ export const generateBCD = (tourNo: string, items: DeliveryData[], bcdNumber: st
     ]);
     
     autoTable(doc, {
-      startY: 113,
+      startY: 108,
       head: [['Désignation', 'Quantité', 'Poids (kg)', 'MOYEN']],
       body: tableData,
       theme: 'grid',
