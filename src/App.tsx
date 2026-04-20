@@ -116,7 +116,7 @@ export default function App() {
   const [deliveryTypeFilter, setDeliveryTypeFilter] = useState<string>('all');
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
-  const [dateTypeFilter, setDateTypeFilter] = useState<'depotage' | 'sortie'>('depotage');
+  const [dateTypeFilter, setDateTypeFilter] = useState<'depotage' | 'sortie'>('sortie');
   const [voyageFilter, setVoyageFilter] = useState('');
   const [positionFilter, setPositionFilter] = useState('');
 
@@ -1012,6 +1012,15 @@ export default function App() {
                         {sortedCarriers.map(c => (
                           <option key={c} value={c}>{c}</option>
                         ))}
+                      </select>
+
+                      <select 
+                        className="bg-white border border-slate-200 text-xs font-medium px-3 py-2 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 cursor-pointer"
+                        value={dateTypeFilter}
+                        onChange={(e) => setDateTypeFilter(e.target.value as 'depotage' | 'sortie')}
+                      >
+                        <option value="depotage">Date Dépotage</option>
+                        <option value="sortie">Date Sortie</option>
                       </select>
 
                       <div className="flex items-center gap-2">

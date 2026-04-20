@@ -49,7 +49,7 @@ export async function fetchLogisticsData(): Promise<DeliveryData[]> {
               expediteur: findValue(row, "expediteur", "exped", "exp") || "",
               destinataire: findValue(row, "destinataire", "destinateire", "dest") || "",
               nbreColis: parseFloat(String(findValue(row, "nbre colis", "nbr colis", "nombre colis") || "0").replace(',', '.')) || 0,
-              poids: parseFloat(String(findValue(row, "poids") || "0").replace(',', '.')) || 0,
+              poids: parseFloat(String(findValue(row, "poids", "poids brut", "poidsbrut") || "0").replace(/\s/g, '').replace(',', '.')) || 0,
               mpl: parseFloat(String(findValue(row, "mpl") || "0").replace(',', '.')) || 0,
               typeColis: findValue(row, "type colis", "nature", "type de colis") || "",
               incoterm: findValue(row, "incoterm") || "",
